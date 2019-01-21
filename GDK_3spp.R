@@ -31,7 +31,7 @@ data2<-read.csv('spdat_clean_gdk.csv', stringsAsFactors = FALSE) # species data,
 host.density2<-read.csv('hostden_clean_gdk.csv') # tree host density by pest species
 prez<-read.csv('prez_clean_gdk.csv') # invasible host range (from FIA)
 prez2<-read.csv('prez2_clean_gdk.csv') # pest presences in 2000 for the 3 species examined here, in 2009 for all other species
-L<-rep(0,64)
+L<-rep(0,64) # size of each pest's host range
 for (sppp in 1:64)
 {
   L[sppp]<-length(which(prez[,sppp]!=0))
@@ -72,7 +72,7 @@ GDK_cor=function(par)
   if (ic==T)
   {
     pars[1]<-par[1] # intercept
-    pars[c(21,22,4,18,20,8)]<-c(0.000538410692229749, 0.299034706404549, -0.525670755351726, 15.6132848183217,-0.163552592351765, 0.323831382884772) # fitted values from GDKu for other important pars as published
+    pars[c(21,22,4,18,20,8)]<-c(0.000538410692229749, 0.299034706404549, -0.525670755351726, 15.6132848183217,-0.163552592351765, 0.323831382884772) # fitted values from GDKu for important pars as published in Hudgins et al. (2017)
     if (temp_t==T)
     {
       pars[31]<-par[2]

@@ -8,9 +8,8 @@
 
 rm(list=ls()) 
 library(pdist)
-i=1
-#setwd('~/Documents/GitHub/GDK_vs_customized/') # update to your own working directory
-plotting=T
+i=1 # see below for meaning of i (species/model combination)
+setwd('~/Documents/GitHub/GDK_vs_customized/') # update to your own working directory
 
 #Read in Data
 data<-read.csv('countydatanorm_march.csv', stringsAsFactors = FALSE) # spatial data
@@ -26,7 +25,7 @@ for (sppp in 1:64)
 }
 AHS<-read.csv('AHS_grid_scaled.csv') #firewood and campground variables from the American Housing Survey
 
-#Climatic thresholds#
+#Climatic threshold#
 current_temp<-current_temp2<-temp<-temp2<-0
 
 ## Distance matrix pre-calculation
@@ -79,7 +78,7 @@ while(i<=12 && i!=-99)
   }
   if (start_mode=="centroid")
   {
-    sources<-as.list(read.csv('Psources_march.csv')[,1]) # host centroid spread initiation
+    sources<-as.list(read.csv('Psources_notypos.csv')[,1]) # host centroid spread initiation
   }
   
   # Spread  simulation fitting funtion

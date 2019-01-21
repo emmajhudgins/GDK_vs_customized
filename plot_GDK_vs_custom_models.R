@@ -1,3 +1,13 @@
+## Plotting functions to compare GDK and customized models ##
+## Written as part of Hudgins et al. "Comparing generalized to customized models for United States forest pest spread" in prep. J Ecol.
+
+## Written by Emma J. Hudgins
+## PhD candidate, McGill University
+## Montreal, QC, Canada
+## emma.hudgins@mail.mcgill.ca
+
+## Example input is given for the best-fitting HWA customized and GDK models, but additional output can be generated using the other scripts in this folder
+
 rm(list=ls()) 
 library(sp)
 library(ggplot2)
@@ -52,7 +62,7 @@ m<-SpatialPointsDataFrame(coords=cbind(data$X_coord, data$Y_coord), data=data)
 USA_merged<-map('usa', fill=TRUE, plot=F)
 IDs <- sapply(strsplit(USA_merged$names, ":"), function(x) x[1])
 sp_map_usa <- map2SpatialPolygons(USA_merged, IDs=IDs, proj4string=CRS("+proj=longlat +datum=WGS84"))
-transform_usa<-spTransform(sp_map_usa, CRS("+proj=eqdc +lat_0=39 +lon_0=-96 +lat_1=33 +lat_2=45 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs"))
+transform_usa<-spTransform(sp_map_usa, CRS("+proj=eqdc +lat_0=39 +lon_0=-96 +lat_1=33 +lat_2=45 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs")) # simulation grid is in United States Equidistant Conic projection
 
 Presences<-list()
 title<-c("Customized", "GDK (uncor)", "GDK (cor)")

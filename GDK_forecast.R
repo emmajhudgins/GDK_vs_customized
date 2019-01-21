@@ -9,10 +9,10 @@
 
 rm(list=ls()) 
 library(pdist)
-temp_t=T # minimum temperature threshold, set to true for spp=48
-hum_t=F # maximum humidity threshold, set to true for spp=44
-start="real" # spread initiation point, set to 'real' for spp=44, centroid otherwise
-spp=49 # species of interest 
+temp_t=F # minimum temperature threshold, should be set to true for spp=48
+hum_t=F # maximum humidity threshold, should be set to true for spp=44
+start="centroid" # spread initiation point, should be set to 'real' for spp=44, 'centroid' otherwise
+spp=1 # species of interest 
 setwd('~/Documents/GitHub/GDK_vs_customized/') # update to your own working directory
 
 #Read in Data
