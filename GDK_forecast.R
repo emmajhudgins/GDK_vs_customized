@@ -1,19 +1,21 @@
 ## Code to fit intercept-adjustment (GDKic) for all species in the Hudgins et al. (2017) dataset##
+## Written as part of Hudgins et al. "Comparing customized to generalized models for United States Forest Pests". in prep. J Ecol. ##
 
-## Use GDK_s_ic_c to fit spp=49,51,54
-
-## Written by Emma Hudgins, 2019
-## PhD candidate, McGill University
+## Code written by Emma J. Hudgins
+## PhD Candidate, McGill University
 ## Montreal, QC, Canada
 ## emma.hudgins@mail.mcgill.ca
+
+## We used GDK_3spp.R, not this script, to fit focal species from publication (49,51,54)
 
 rm(list=ls()) 
 library(pdist)
 temp_t=F # minimum temperature threshold, should be set to true for spp=48
 hum_t=F # maximum humidity threshold, should be set to true for spp=44
 start="centroid" # spread initiation point, should be set to 'real' for spp=44, 'centroid' otherwise
-spp=1 # species of interest 
-setwd('~/Documents/GitHub/GDK_vs_customized/') # update to your own working directory
+spp=1 # species of interest
+#setwd('~/Documents/GitHub/GDK_vs_customized/') # update to your own working directory
+ic=F # fit intercept correction?
 
 #Read in Data
 data<-read.csv('countydatanorm_march.csv', stringsAsFactors = FALSE) # spatial data, including pest distributions in 2009 (fyi: other species are fit on 2005 to make timesteps equal)
@@ -26,7 +28,14 @@ for (sppp in 1:64)
 {
   L[sppp]<-length(which(prez[,sppp]!=0))
 }
-
+if (spp==48)
+{
+  temp_t=T
+}
+if (spp==44)
+{
+  hum_t=T
+}
 #Climatic thresholds#
 current_temp<-current_temp2<-0
 if (temp_t==T)
@@ -153,7 +162,9 @@ GDKic=function(par)
     vecP[which(prez[,spp]==Psource)]=1
     Pfull_time[,time]<<-c(prez[which(Pnext>=par[21]),spp], rep(0, 3372-length(which(Pnext>=par[21]))))
     current_temp<-current_temp2
-    if ((spp %in% c(59,28))==F)
+    if (ic==T)
+    {
+    if ((spp %in% c(7,12,59,28))==F)
     {
       if (length(which(Pfull_time[,time]!=0))<(L[spp]*0.9)) # if pest has not spread throughout 90% of its range
       {
@@ -166,7 +177,7 @@ GDKic=function(par)
         }
       }
     }
-    if ((spp %in% c(59,28))==T) # species with very small invasible ranges require a more relaxed penalty
+    if ((spp %in% c(7,59,28))==T) # species with very small invasible ranges require a more relaxed penalty
     {
       if (length(which(Pfull_time[,time]!=0))<(L[spp]-12)) # if pest has not spread throughout all but a small number of sites
       {
@@ -178,6 +189,7 @@ GDKic=function(par)
           }
         }
       }
+    }
     }
   }
   Pfull[,spp]<<-Pfull_test
@@ -192,11 +204,12 @@ GDKic=function(par)
 }
 
 ##Optimization based on MET (very sensitive to initial conditions - beware)##
-
+if (ic==T)
+{
 if(temp_t==T)
 {
   model<-optim(par=c(1.76, -124.3), fn=GDKic, control=list(trace=100, maxit=1000, parscale=c(1,100))) # parscale helps with differential magnitude of temp threshold and intercept
-  
+
 }
 if(hum_t==T)
 {
@@ -214,7 +227,11 @@ if(temp_t==F & hum_t==F)
     }
     if (model$par==4)
     {
-      model<-optim(par=c(4), fn=GDKic, control=list(trace=100, maxit=1000))
+      model<-optim(par=c(0.1), fn=GDKic, control=list(trace=100, maxit=1000))
+    }
+    if (model$par==0.1)
+    {
+      model<-optim(par=c(0.25), fn=GDKic, control=list(trace=100, maxit=1000))
     }
   }
 }
@@ -223,13 +240,20 @@ xx<-1000000
 while (yy!=xx)
 {
   yy<-model$value
-  model<-optim(par=model$par, fn=GDKic, control=list(trace=100, maxit=1000))   
+  model<-optim(par=model$par, fn=GDKic, control=list(trace=100, maxit=1000))
   xx<-model$value
 }
 GDKic(model$par)
+}
+
+if (ic==F)
+{
+GDKic(1.74213662335515) # overall optimal intercept for 5-year GDK
+}
+
 
 ##save output##
-write.csv(Pfull_time, file=paste("presences_GDKic",spp,"csv",sep='.')) # vector of presences appended to string of zeros to maintain matrix size, including forecast
-write.csv(model$par, file=paste("par_GDKic", spp,"csv", sep='.')) # optimal parameter set 
+write.csv(Pfull_time, file=paste("presences_GDK", ifelse(ic, "ic", "u"), ifelse(start=="real", "real", "centroid"),spp,"csv",sep='.')) # vector of presences appended to string of zeros to maintain matrix size, including forecast
+write.csv(model$par, file=paste("par_GDK_startonly", spp,"csv", sep='.')) # optimal parameter set 
 
 

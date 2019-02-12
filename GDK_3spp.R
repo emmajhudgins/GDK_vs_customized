@@ -1,4 +1,4 @@
-## Fitting of GDKu, GDKic, GDKs, GDKs+ic, and GDKs+ic+c models for 3 United States Invasive Forest Pests##
+## Fitting of sGDK models for 3 United States Invasive Forest Pests##
 ## Written as part of Hudgins et al. "Comparing customized to generalized models for United States Forest Pests". in prep. J Ecol. ##
 
 ## Code written by Emma J. Hudgins

@@ -15,7 +15,7 @@ library(maptools)
 library(maps)
 library(wesanderson)
 
-spp=49
+spp=49 # HWA=49, GM=51, BBD=54
 nm_spp<-rep(0,64)
 nm_spp[c(49,51,54)]<-c("HWA", "GM", "BBD")
 i=7
@@ -76,13 +76,12 @@ Presences[[1]]<-read.csv(paste("presences_customized",step_num,i,cc,"csv", sep="
 Presences[[2]]<-read.csv(paste("presences_GDK",nm_spp[spp], "_u__fit_.csv", sep="_"))
 if (spp==49)
 {
-Presences[[3]]<-read.csv(paste("presences_GDK",nm_spp[spp],"s_ic_c_fit_.csv", sep="_"))
+Presences[[3]]<-read.csv(paste("presences_GDK_HWA_s_ic_c_fit_.csv", sep="_"))
 }
 if (spp!=49)
 {
-  Presences[[3]]<-read.csv(paste(spp_nm, "presences_GDK_s_ic_fit_.csv", sep="_"))
+  Presences[[3]]<-read.csv(paste("presences_GDK", nm_spp[spp],"s_ic_fit_.csv", sep="_"))
 }
-
 
 for (i in 1:3)
 {

@@ -9,7 +9,7 @@
 rm(list=ls()) 
 library(pdist)
 i=1 # see below for meaning of i (species/model combination)
-setwd('~/Documents/GitHub/GDK_vs_customized/') # update to your own working directory
+#setwd('~/Documents/GitHub/GDK_vs_customized/') # update to your own working directory
 
 #Read in Data
 data<-read.csv('countydatanorm_march.csv', stringsAsFactors = FALSE) # spatial data
@@ -102,7 +102,7 @@ while(i<=12 && i!=-99)
     if (spp==49)
     {
       YEAR=50 # number of years to fit on
-      prez2<-read.csv('hwa_5yr_fitting_july.csv')[,3:12] # observed distribution in 2005
+      prez2<-read.csv('hwa_5yr_fitting_july.csv')[,3:12] # observed distribution in 5-year timesteps to 2000
     }
     if (spp==51)
     {
