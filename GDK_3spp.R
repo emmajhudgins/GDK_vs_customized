@@ -22,7 +22,7 @@ temp_t=T # temperature threshold for HWA
 source="real" # start from 'centroid' or best guess of initial invasion ('real')
 nm_spp<-rep(0,64)
 nm_spp[c(49,51,54)]<-c("HWA", "GM", "BBD")
-fit_mode="validate" ##use "fit_to_forecast" to fit to 2005 instead of 2000 (most accurate forecasts)
+fit_mode="fit_to_forecast" ##use "fit_to_forecast" to fit to 2005 instead of 2000 (most accurate forecasts), "validate" otherwise
 setwd("~/Desktop/OneDrive - McGill University/Grad/scripts/")
 
 #Read in Data
@@ -166,7 +166,7 @@ GDK_cor=function(par)
     Pnext=(vecP[which(vecP>=par[21])])%*%(qq) # dispersal into and out of all sites
     if (temp_t==T)
     {
-      Pnext[prez[which(current_temp[prez[,spp]]<par[31]),spp]]<-0
+      Pnext[which(current_temp[prez[,spp]]<par[31])]<-0
     }
    Pfull_time[,time]<<-c(prez[which(Pnext>=par[21]),spp], rep(0, 3372-length(which(Pnext>=par[21])))) 
     if (time>1) # do not allow extirpations
@@ -197,12 +197,15 @@ GDK_cor=function(par)
   
   if (time>1)
   {
+    if (plot_mode=="validate")
+    {
   if (length(all.equal(Pfull_time[,time], Pfull_time[,time-1]))==1)# penalize parameter sets that do not spread over time
   {
     if (all.equal(Pfull_time[,time], Pfull_time[,time-1])==TRUE)
     {
       return (1000000000)
     }
+  }
   }
   }
   }
@@ -223,11 +226,15 @@ if (ic==T)
 {
   if (temp_t==F)
   {
-    model<-optim(par=c(2), fn=GDK_cor, control=list(trace=100, maxit=1000))
+    model<-optim(par=c(1.63125), fn=GDK_cor, control=list(trace=100, maxit=1000))
+    if (model$par==2)
+    {
+      model<-optim(par=c(1), fn=GDK_cor, control=list(trace=100, maxit=1000)) 
+    }
   }
   if (temp_t==T)
   {
-    model<-optim(par=c(1.44, -74.9), fn=GDK_cor, control=list(trace=100, maxit=1000, parscale=c(1,100)))
+    model<-optim(par=c(1.03125, -75), fn=GDK_cor, control=list(trace=100, maxit=1000, parscale=c(1,100)))
   }
   yy<-model$value # continue refitting until output is the same as input to avoid local minima
   xx<-1000000
@@ -267,9 +274,9 @@ if (write_out==T) # write out best fitting parameters and distribution over time
 {
   if (ic==T)
   {
-  write.csv(model$par, file=paste("par_GDK", nm_spp,ifelse(source=="real", "s", ""),  ifelse(ic, "ic", "u"),  ifelse(temp_t==T, "c", ""),ifelse(fit_mode=='fit_to_forecast', "forecast", "fit"),".csv", sep='_'))
+  write.csv(model$par, file=paste("par_GDK", nm_spp[spp],ifelse(source=="real", "s", ""),  ifelse(ic, "ic", "u"),  ifelse(temp_t==T, "c", ""),ifelse(fit_mode=='fit_to_forecast', "forecast", "fit"),".csv", sep='_'))
   }
-    write.csv(Pfull, file=paste("presences_GDK", nm_spp,ifelse(source=="real", "s", ""),  ifelse(ic, "ic", "u"),  ifelse(temp_t==T, "c", ""),ifelse(fit_mode=='fit_to_forecast', "forecast", "fit"),".csv", sep='_'))
+    write.csv(Pfull, file=paste("presences_GDK", nm_spp[spp],ifelse(source=="real", "s", ""),  ifelse(ic, "ic", "u"),  ifelse(temp_t==T, "c", ""),ifelse(fit_mode=='fit_to_forecast', "forecast", "fit"),".csv", sep='_'))
 }
 
 ## R2om calculation ##

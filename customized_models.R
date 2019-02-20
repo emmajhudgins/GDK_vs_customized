@@ -296,8 +296,8 @@ while(i<=12 && i!=-99)
         {
           model<-m[[win[step_num]]]
           others=c(others,win[[step_num]])
-          write.csv(Pfull, file=paste("presences_customized", step_num,i,cc,"csv",sep='.'))
-          write.csv(cbind(model$par, others), file=paste("par_customized", step_num,i,cc,"csv",sep='.'))
+          write.csv(Pfull, file=paste("presences_customized", step_num,i,cc,"csv",sep='.'), row.names=F)
+          write.csv(cbind(model$par, others), file=paste("par_customized", step_num,i,cc,"csv",sep='.'), row.names=F)
         }
       }
       if (win[step_num]==0)

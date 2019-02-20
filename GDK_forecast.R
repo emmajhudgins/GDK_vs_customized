@@ -12,7 +12,7 @@ rm(list=ls())
 library(pdist)
 temp_t=F # minimum temperature threshold, should be set to true for spp=48
 hum_t=F # maximum humidity threshold, should be set to true for spp=44
-start="centroid" # spread initiation point, should be set to 'real' for spp=44, 'centroid' otherwise
+start="centroid" # spread initiation point, either 'real' or 'centroid'
 spp=1 # species of interest
 #setwd('~/Documents/GitHub/GDK_vs_customized/') # update to your own working directory
 ic=F # fit intercept correction?
@@ -134,11 +134,11 @@ GDKic=function(par)
     Pnext=(vecP[which(vecP>=par[21])])%*%(qq) # dispersal into and out of all sites
     if (temp_t==T)
     {
-      Pnext[prez[which(current_temp[prez[,spp]]<par[31]),spp]]<-0
+      Pnext[which(current_temp[prez[,spp]]<par[31])]<-0
     }
     if (hum_t==T)
     {
-      Pnext[prez[which(hum[prez[,spp]]>par[32]),spp]]<-0
+      Pnext[which(hum[prez[,spp]]>par[32])]<-0
     }
     Pfull_time[,time]<<-c(prez[which(Pnext>=par[21]),spp], rep(0, 3372-length(which(Pnext>=par[21])))) # record presences
     if (time>1) # do not allow extirpations
@@ -148,7 +148,7 @@ GDKic=function(par)
       Pnext[ffff]<-par[21]
       if (time==floor(YEAR/5)) # set to observed distribution before forecasting (set false absences to threshold and remove false presences)
       {
-        Pfull_test<-c(prez[which(Pnext>=par[21]),spp], rep(0, 3372-length(which(Pnext>=par[21])))) 
+        Pfull_test<-c(prez[which(Pnext>=par[21]),spp], rep(0, 3372-length(which(Pnext>=par[21]))))
         dddd<-which(prez[1:length(which(prez[,spp]!=0)),spp]%in%prez2[1:length(which(prez2[,spp]!=0)),spp])
         cccc<-which(!(prez[1:length(which(prez[,spp]!=0)),spp]%in%prez2[1:length(which(prez2[,spp]!=0)),spp]))
         eeee<-which(Pnext[dddd]<par[21])
@@ -253,7 +253,7 @@ GDKic(1.74213662335515) # overall optimal intercept for 5-year GDK
 
 
 ##save output##
-write.csv(Pfull_time, file=paste("presences_GDK", ifelse(ic, "ic", "u"), ifelse(start=="real", "real", "centroid"),spp,"csv",sep='.')) # vector of presences appended to string of zeros to maintain matrix size, including forecast
-write.csv(model$par, file=paste("par_GDK_startonly", spp,"csv", sep='.')) # optimal parameter set 
+write.csv(Pfull_time, file=paste("presences_GDK", ifelse(ic, "ic", "u"), ifelse(start=="real", "real", "centroid"),spp,"csv",sep='.'), row.names=F) # vector of presences appended to string of zeros to maintain matrix size, including forecast
+write.csv(model$par, file=paste("par_GDK", ifelse(ic, "ic", "u"), ifelse(start=="real", "real", "centroid"),spp,"csv",sep='.'), row.names=F) # optimal parameter set 
 
 
