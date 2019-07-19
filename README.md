@@ -1,6 +1,6 @@
 # Comparing generalized to customized invasive pest dispersal models
 
-This folder includes the data and code necessary to replicate Hudgins et al. (2019) "Comparing generalized to customized models for United States invasive forest pest spread". Ecological Applications. 
+This folder includes the data and code necessary to replicate Hudgins et al. (2019) "Comparing generalized and customized spread models for non-native forest pests". Ecological Applications. 
 
 The code was written by Emma J. Hudgins, PhD candidate, McGill University
 
