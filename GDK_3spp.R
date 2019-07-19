@@ -1,4 +1,4 @@
-## Fitting of sGDK models for 3 United States Invasive Forest Pests##
+## Fitting of SDK models for 3 United States Invasive Forest Pests##
 ## Written as part of Hudgins et al. "Comparing customized to generalized models for United States Forest Pests". in prep. J Ecol. ##
 
 ## Code written by Emma J. Hudgins
@@ -13,7 +13,7 @@ plot_mode="validate" # keep this set to validate (will update to forecast later 
 setwd('~/Documents/GitHub/GDK_vs_customized/') # update to your own working directory
 
 
-#Modelling switches - testing different GDK layers #
+#Modelling switches - testing different SDK layers #
 spp=49 # species to fit (49=hwa, 51=gm, 54=bbd)
 write_out=T # write presences and fitted parameters to csv
 mk_random=F #make null model draws for r2om (output already included so not necessary)
@@ -72,7 +72,7 @@ GDK_cor=function(par)
   if (ic==T)
   {
     pars[1]<-par[1] # intercept
-    pars[c(21,22,4,18,20,8)]<-c(0.000538410692229749, 0.299034706404549, -0.525670755351726, 15.6132848183217,-0.163552592351765, 0.323831382884772) # fitted values from GDKu for important pars as published in Hudgins et al. (2017)
+    pars[c(21,22,4,18,20,8)]<-c(0.000538410692229749, 0.299034706404549, -0.525670755351726, 15.6132848183217,-0.163552592351765, 0.323831382884772) # fitted values from uncorrected GDK for important pars as published in Hudgins et al. (2017)
     if (temp_t==T)
     {
       pars[31]<-par[2]

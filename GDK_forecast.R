@@ -1,4 +1,4 @@
-## Code to fit intercept-adjustment (GDKic) for all species in the Hudgins et al. (2017) dataset##
+## Code to fit relevant SDK layers for all species in the Hudgins et al. (2017) dataset##
 ## Written as part of Hudgins et al. "Comparing customized to generalized models for United States Forest Pests". in prep. J Ecol. ##
 
 ## Code written by Emma J. Hudgins

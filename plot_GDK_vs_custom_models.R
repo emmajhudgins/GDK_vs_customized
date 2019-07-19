@@ -1,4 +1,4 @@
-## Plotting functions to compare GDK and customized models ##
+## Plotting functions to compare GDK, SDK and customized models ##
 ## Written as part of Hudgins et al. "Comparing generalized to customized models for United States forest pest spread" in prep. J Ecol.
 
 ## Written by Emma J. Hudgins
@@ -6,7 +6,7 @@
 ## Montreal, QC, Canada
 ## emma.hudgins@mail.mcgill.ca
 
-## Example input is given for the best-fitting HWA customized and GDK models, but additional output can be generated using the other scripts in this folder
+## Example input is given for the best-fitting HWA customized, SDK and uncorrected GDK models, but additional output can be generated using the other scripts in this folder
 
 rm(list=ls()) 
 library(sp)
@@ -65,7 +65,7 @@ sp_map_usa <- map2SpatialPolygons(USA_merged, IDs=IDs, proj4string=CRS("+proj=lo
 transform_usa<-spTransform(sp_map_usa, CRS("+proj=eqdc +lat_0=39 +lon_0=-96 +lat_1=33 +lat_2=45 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs")) # simulation grid is in United States Equidistant Conic projection
 
 Presences<-list()
-title<-c("Customized", "GDK (uncor)", "GDK (cor)")
+title<-c("Customized", "GDK", "SDK")
 palette<-wes_palette("Rushmore", 5, type="discrete")
 mat <- matrix(c(1,2,3,3,4,4),nrow = 3,ncol = 2,byrow = TRUE)
 layout(mat = mat,heights = c(0.45,0.45,0.1))
