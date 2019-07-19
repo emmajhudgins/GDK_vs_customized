@@ -1,5 +1,5 @@
 ## Plotting functions to compare GDK, SDK and customized models ##
-## Written as part of Hudgins et al. "Comparing generalized to customized models for United States forest pest spread" in prep. J Ecol.
+## Written as part of Hudgins et al. " Comparing generalized and customized spread models for non-native forest pests" (2019). Ecological Applications.
 
 ## Written by Emma J. Hudgins
 ## PhD candidate, McGill University

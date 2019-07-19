@@ -1,5 +1,5 @@
 ## Code to fit relevant SDK layers for all species in the Hudgins et al. (2017) dataset##
-## Written as part of Hudgins et al. "Comparing customized to generalized models for United States Forest Pests". in prep. J Ecol. ##
+## Written as part of Hudgins et al. " Comparing generalized and customized spread models for non-native forest pests". (2019). Ecological Applications ##
 
 ## Code written by Emma J. Hudgins
 ## PhD Candidate, McGill University
