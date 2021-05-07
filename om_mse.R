@@ -3,6 +3,7 @@ om_mse<-function(pred, obs)
 {
   data<-read.csv('data_minus5_july.csv')
   library(optmatch)
+  options("optmatch_max_problem_size" = Inf)
   all_dist<-(as.matrix(pdist(cbind(data$X_coord[pred], data$Y_coord[pred]), cbind(data$X_coord[obs], data$Y_coord[obs]))))^2
   if (nrow(all_dist)>ncol(all_dist))
   {
